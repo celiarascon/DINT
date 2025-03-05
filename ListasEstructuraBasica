@@ -1,0 +1,73 @@
+import SwiftUI
+
+struct ContentView: View {
+    @State var items: [String] = ["Elemento 1", "Elemento 2", "Elemento 3", "Elemento 4"]
+    
+    var body: some View {
+        NavigationView {
+            TabView {
+                ListView(items: items) // Lista reutilizable
+                    .tabItem {
+                        Label("Lista", systemImage: "list.bullet")
+                    }
+                
+                ProfileView() // Vista de perfil reutilizable
+                    .tabItem {
+                        Label("Perfil", systemImage: "person.circle")
+                    }
+            }
+            .navigationTitle("Mi Aplicación")
+        }
+    }
+}
+
+// Vista reutilizable con List
+struct ListView: View {
+    var items: [String]
+    
+    var body: some View {
+        VStack {
+            Text("Lista de Elementos")
+                .font(.title)
+                .padding()
+            
+            List {
+                ForEach(items, id: \.self) { item in
+                    NavigationLink(destination: DetailView(item: item)) {
+                        HStack {
+                            Text(item)
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Vista de detalles reutilizable
+struct DetailView: View {
+    var item: String
+    
+    var body: some View {
+        Text("Detalles de \(item)")
+            .font(.title)
+            .padding()
+    }
+}
+
+// Vista de perfil reutilizable
+struct ProfileView: View {
+    var body: some View {
+        VStack {
+            Image(systemName: "person.circle.fill")
+                .resizable()
+                .frame(width: 100, height: 100)
+                .foregroundColor(.blue)
+            
+            Text("Nombre: Usuario Genérico")
+                .font(.headline)
+        }
+    }
+}
