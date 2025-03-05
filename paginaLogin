@@ -1,0 +1,87 @@
+import SwiftUI
+
+struct ContentView: View {
+    @State private var email = ""
+    @State private var password = ""
+    @State private var isValid = false
+
+    var body: some View {
+        VStack {
+            // Título de la pantalla
+            Text("Iniciar sesión")
+                .font(.largeTitle)
+                .fontWeight(.bold)
+                .foregroundColor(.black)
+                .padding(.top, 40)
+            
+            Spacer()
+            
+            // Email TextField
+            VStack(alignment: .leading) {
+                Text("Correo electrónico")
+                    .font(.headline)
+                    .foregroundColor(.gray)
+                TextField("Introduce tu correo electrónico", text: $email)
+                    .padding()
+                    .background(RoundedRectangle(cornerRadius: 10).strokeBorder(Color.gray, lineWidth: 1))
+                    .keyboardType(.emailAddress)
+                    .autocapitalization(.none)
+                    .padding(.bottom, 20)
+            }
+            .padding(.horizontal, 30)
+            
+            // Contraseña SecureField
+            VStack(alignment: .leading) {
+                Text("Contraseña")
+                    .font(.headline)
+                    .foregroundColor(.gray)
+                SecureField("Introduce tu contraseña", text: $password)
+                    .padding()
+                    .background(RoundedRectangle(cornerRadius: 10).strokeBorder(Color.gray, lineWidth: 1))
+                    .padding(.bottom, 30)
+            }
+            .padding(.horizontal, 30)
+            
+            // Botón de Iniciar sesión
+            Button(action: {
+                // Acción de login (por ejemplo, validar las credenciales)
+                print("Iniciar sesión con \(email) y \(password)")
+                // Aquí puedes poner la lógica para hacer el login real.
+            }) {
+                Text("Iniciar sesión")
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(isValid ? Color.gray : Color.blue) // El color depende si es válido el login
+                    .cornerRadius(10)
+            }
+            .padding(.horizontal, 30)
+            .disabled(email.isEmpty || password.isEmpty) // Desactiva el botón si los campos están vacíos
+            
+            Spacer()
+        }
+        .padding()
+        .background(Color.white) // Fondo blanco para hacer la página más simple
+        .cornerRadius(20)
+        .shadow(radius: 5)
+        .padding(.horizontal, 20)
+        .onChange(of: email) {
+            validateForm()
+        }
+        .onChange(of: password) {
+            validateForm()
+        }
+    }
+
+    // Método para validar si el formulario es correcto (en este caso si el email y password no están vacíos)
+    private func validateForm() {
+        isValid = !email.isEmpty && !password.isEmpty
+    }
+}
+
+
+
+#Preview {
+    ContentView()
+}
