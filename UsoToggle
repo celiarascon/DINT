@@ -1,0 +1,24 @@
+import SwiftUI
+
+struct ContentView: View {
+    @State private var showDetails: Bool = false
+
+    var body: some View {
+        VStack {
+            Button("Mostrar Detalles") {
+                showDetails.toggle() // Alterna la visibilidad
+            }
+            .padding()
+            .background(Color.blue)
+            .foregroundColor(.white)
+            .cornerRadius(10)
+
+            if showDetails {
+                Text("Detalles visibles ahora!")
+                    .font(.title)
+                    .padding()
+                    .transition(.slide) // Animación opcional
+            }
+        }
+    }
+}
